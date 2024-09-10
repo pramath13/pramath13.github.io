@@ -1,0 +1,33 @@
+(r_x, r_y, g_x, g_y)
+emir.tif
+ Final final  (1, 102, 1, 46)
+monastery.jpg
+ Final final  (1, 3, 1, -3)
+church.tif
+ Final final  (4, 59, 1, 25)
+three_generations.tif
+ Final final  (1, 112, 1, 52)
+melons.tif
+ Final final  (1, 178, 1, 81)
+onion_church.tif
+ Final final  (1, 108, 1, 51)
+train.tif
+ Final final  (1, 90, 1, 41)
+tobolsk.jpg
+ Final final  (1, 6, 1, 3)
+icon.tif
+ Final final  (1, 91, 1, 43)
+cathedral.jpg
+ Final final  (7, 60, 1, 5)
+self_portrait.tif
+ Final final  (1, 174, 1, 77)
+harvesters.tif
+ Final final  (1, 126, 1, 60)
+sculpture.tif
+ Final final  (27, 140, 11, 33)
+lady.tif
+ Final final  (1, 119, 1, 55)
+vase.tif
+ Final final  (1, 111, 1, 25)
+itali.tif
+ Final final  (1, 65, 1, 36)
