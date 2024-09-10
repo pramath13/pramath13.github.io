@@ -1,15 +1,276 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>My Portfolio</title>
+    <title>Project 1</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+        div.gallery {
+            border: 0px solid #ccc;
+        }
+
+        div.gallery:hover {
+            border: 2px solid #1566c3;
+            display: inline-block;
+        }
+
+        div.gallery img {
+            width: 100%;
+            height: auto;
+        }
+
+        div.desc {
+            padding: 5px;
+            text-align: center;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .responsive {
+            padding: 0 6px;
+            float: none;
+            width: 24.99999%;
+            display: inline-block;
+        }
+
+        @media only screen and (max-width: 700px) {
+            .responsive {
+                width: 49.999999%;
+                margin: 6px 0;
+            }
+        }
+
+        @media only screen and (max-width: 500px) {
+            .responsive {
+                width: 100%;
+            }
+        }
+
+        .clearfix:after {
+            content: "";
+            display: table;
+            clear: both;
         }
     </style>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
 </head>
+
 <body>
-    <h1>Welcome to Project1!</h1>
+    <h1>Colorizing the Prokudin-Gorskii photo collection</h1>
+    <h3>~ Pramath</h3> <br />
+
+    <h2>Introduction</h2>
+    <p>Sergei Mikhailovich Prokudin-Gorskii (1863-1944) [Сергей Михайлович Прокудин-Горский, to his Russian friends] was
+        a man well ahead of his time. Convinced, as early as 1907, that color photography was the wave of the future, he
+        won Tzar's special permission to travel across the vast Russian Empire and take color photographs of everything
+        he saw including the only color portrait of Leo Tolstoy. And he really photographed everything: people,
+        buildings, landscapes, railroads, bridges... thousands of color pictures! His idea was simple: record three
+        exposures of every scene onto a glass plate using a red, a green, and a blue filter. </p>
+    <p>The goal of this project is to produce 1 color image given the 3 color filtered images.</p>
+
+    <br />
+    <h2> Inital Approach</h2>
+    <h3>Step 1: Extract the 3 color channels</h3>
+    <p>The 3 color channels - R,G,B were extracted from the single glass plate image. This was done by dividing the
+        height of the image into 3 equal parts and cropping the image as necessary. </p>
+
+    <h3>Step 2: Image Alignment</h3>
+    <p>There is a linear transformation needed to align the 3 color channels due to slight movements.
+        I used the Blue Channel as the base and aligned the Red and Green channels to it. I did a grid search of
+        <span>&#177;</span> 15
+        pixels in the x-axis and y-axis.
+        I did a preprocessing step here to normalize each color channel.
+        <br />I normalized by:
+        $$ {X - mean(X) / std(X)} $$
+
+        where X is the image matrix.
+        The metric I used for the alignment was the Sum of Squared Difference (SSD).
+        $$ {\sum_{x}\sum_{y}(ch1 - ch2)^2} $$
+        ch1 and ch2 are red/green and blue color channels respectively.
+    </p>
+    <h3>Step 3: Combine channels</h3>
+    <p>Once the translation vector for each color channel is known after the image aligment, that color channel is
+        cropped and padded with 0s so that it retains is original dimension. The 3 color channels are then stacked along
+        the third dimension and
+        a single RGB image is obtained. </p>
+
+    <br />
+    <h2> Optimization</h2>
+    <h3>Implement image pyramid</h3>
+    <p>I would recursively scale down the image by a factor of 2 each time for an user defined n levels and perform grid
+        search of 60/scale pixels in both the x and y axis.</p>
+
+    <h3>Implement Filtering</h3>
+    <p> I implmented 2d convolution that will convolve the image with any user defined filter. There is a fast
+        convolution solution only using numpy which worked better than my implementation using loops.
+        Using this filtering technique I managed to implement edge detection by convolving the image with the sobel
+        operator.
+        I used 2 matrices - G_x and G_y to calculate the gradient in both the x and y axis.
+        <br /><br />G_x is defined as:
+        \begin{bmatrix} -1 & 0 & 1 \\ -2 & 0 & 2 \\ -1 & 0 & 1 \end{bmatrix}
+        <br /><br />G_y is defined as:
+        \begin{bmatrix} 1 & 2 & 1 \\ 0 & 0 & 0 \\ -1 & 2 & -1 \end{bmatrix}
+        These matrices detect an edge along the x or y axis. Edge detection was particularly useful when the emir image
+        was not properly aligned without using the edge detector. The image generated from edge detector was then passed
+        to the alignment algorithm and it did much better. This was because the features were more prominent and thus
+        made it easier to match features.
+    </p>
+
+    <a target="_blank" href="./results/emir_sobel.png">
+        <img src="./results/emir_sobel.png" alt="emir" width="auto" height="400">
+    </a>
+    <div class="desc">Grayscale image after sobel operator is applied on the image. This is showing the magnitude of
+        the
+        gradients.
+    </div>
+    <br /><br />
+
+    <div class="responsive">
+        <div class="gallery">
+            <a target="_blank" href="./results/emirwo_ed.jpg">
+                <img src="./results/emirwo_ed.jpg" alt="emir" width="600" height="400">
+            </a>
+            <div class="desc">Recolorized emir.tif image.
+                <br /> Aligment before Sobel filtering is applied.
+            </div>
+        </div>
+    </div>
+
+    <div class="responsive">
+        <div class="gallery">
+            <a target="_blank" href="./results/emir.jpg">
+                <img src="./results/emir.jpg" alt="emir" width="600" height="400">
+            </a>
+            <div class="desc">Recolorized emir.tif image.
+                <br /> Aligment after Sobel filtering is applied.
+            </div>
+        </div>
+    </div>
+
+    <h3>Automatic contrasting</h3>
+    <p>A simple, yet effective technique was used. I subtracted each pixel in the image array by the global minimum
+        pixel intensity and divided that by the maximum pixel intensity. This would create a matrix between 0.0 to
+        1.0
+        in floats. I then multiplied each pixel by 255 and casted them to unint8. </p>
+    <p></p>
+
+    <h3>Dynamic Cropping</h3>
+    <p>For all images, it is dynamically cropped. This is done through knowing the displacement of each channel and
+        taking the maximum displacment for each channel on both the x and y axis.</p>
+
+    <h2>Final Results</h2>
+
+    <div class="responsive">
+        <div class="gallery">
+            <a target="_blank" href="./results/harvesters.jpg">
+                <img src="./results/harvesters.jpg" alt="Harvesters" width="600" height="400">
+            </a>
+            <div class="desc">Recolorized harvesters.tif image.
+                <br /> Red Channel Displacement (x,y) = (1, 126)
+                <br /> Green Channel Displacement (x,y) = (1, 60)
+            </div>
+        </div>
+    </div>
+
+    <div class="responsive">
+        <div class="gallery">
+            <a target="_blank" href="./results/three_generations.jpg">
+                <img src="./results/three_generations.jpg" alt="three_generations" width="600" height="400">
+            </a>
+            <div class="desc">Recolorized three_generations.tif image
+                <br /> Red Channel Displacement (x,y) = (1, 112)
+                <br /> Green Channel Displacement (x,y) = (1, 52)
+            </div>
+        </div>
+    </div>
+
+    <div class="responsive">
+        <div class="gallery">
+            <a target="_blank" href="./results/icon.jpg">
+                <img src="./results/icon.jpg" alt="Icon" width="600" height="400">
+            </a>
+            <div class="desc">Recolorized icon.tif image
+                <br /> Red Channel Displacement (x,y) = (1, 91)
+                <br /> Green Channel Displacement (x,y) = (1, 43)
+            </div>
+        </div>
+    </div>
+
+    <div class="responsive">
+        <div class="gallery">
+            <a target="_blank" href="./results/melons.jpg">
+                <img src="./results/melons.jpg" alt="Melons" width="600" height="400">
+            </a>
+            <div class="desc">Recolorized melons.tif image
+                <br /> Red Channel Displacement (x,y) = (1, 178)
+                <br /> Green Channel Displacement (x,y) = (1, 81)
+            </div>
+        </div>
+    </div>
+
+    <div class="responsive">
+        <div class="gallery">
+            <a target="_blank" href="./results/vase.jpg">
+                <img src="./results/vase.jpg" alt="Vase" width="600" height="400">
+            </a>
+            <div class="desc">Recolorized vase.tif image
+                <br /> Red Channel Displacement (x,y) = (1, 111)
+                <br /> Green Channel Displacement (x,y) = (1, 25)
+            </div>
+        </div>
+    </div>
+
+    <div class="responsive">
+        <div class="gallery">
+            <a target="_blank" href="./results/itali.jpg">
+                <img src="./results/itali.jpg" alt="Itali" width="600" height="400">
+            </a>
+            <div class="desc">Recolorized itali.tif image
+                <br /> Red Channel Displacement (x,y) = (1, 65)
+                <br /> Green Channel Displacement (x,y) = (1, 36)
+            </div>
+        </div>
+    </div>
+
+    <div class="responsive">
+        <div class="gallery">
+            <a target="_blank" href="./results/gruppa.jpg">
+                <img src="./results/gruppa.jpg" alt="gruppa" width="600" height="400">
+            </a>
+            <div class="desc">Recolorized gruppa.tif image
+                <br /> Red Channel Displacement (x,y) = (1, 114)
+                <br /> Green Channel Displacement (x,y) = (1, 32)
+            </div>
+        </div>
+    </div>
+
+    <div class="responsive">
+        <div class="gallery">
+            <a target="_blank" href="./results/candlestick.jpg">
+                <img src="./results/candlestick.jpg" alt="candlestick" width="600" height="400">
+            </a>
+            <div class="desc">Recolorized candlestick.tif image
+                <br /> Red Channel Displacement (x,y) = (5, 105)
+                <br /> Green Channel Displacement (x,y) = (1, 48)
+            </div>
+        </div>
+    </div>
+
+    <div class="responsive">
+        <div class="gallery">
+            <a target="_blank" href="./results/lady.jpg">
+                <img src="./results/lady.jpg" alt="lady" width="600" height="400">
+            </a>
+            <div class="desc">Recolorized lady.tif image
+                <br /> Red Channel Displacement (x,y) = (1, 119)
+                <br /> Green Channel Displacement (x,y) = (1, 55)
+            </div>
+        </div>
+    </div>
+
 </body>
+
+
+
 </html>
