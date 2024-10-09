@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Project 3</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Face Morphing</h1>
+    <h3>~ Pramath</h3> <br />
+
+    <h2>Part 1: Defining Correspondences</h2>
+    <p>First, facial keypoints were matched with my image and the target image that I want to morph to. This is needed
+        to create correspondences for triangulation and morphing. Below is an image of the keypoints and the
+        triangulation on both images. The image on the left is me and the right is the target image. The points in blue
+        are the facial keypoints that were selected and the green lines show the triangulation. Delaunay triangulation
+        algorithm was used to generate the triangulation.</p>
+    <img src="./results/triangulation_part1.png" alt="triangulation" width="auto" height="400">
+    <br />
+
+    <h2>Part 2: Computing the "mid-way" face</h2>
+    <p>First, the average face shape was computed by averaging the keypoints on both faces. Next, both faces were warped
+        into that average shape by computing the affine transformation matrix for each triangle on the image to the
+        target face shape. Finally, the colors were averaged using inverse warping. Inverse warping was used so that the
+        destination image does not have any "holes". This mapping would potentially map to partial pixels therefore
+        needing interpolation to get the average color. Below is the average image that was computed using the above
+        mentioned algorithm.</p>
+    <img src="./results/average_part2.png" alt="Average image" width="auto" height="400">
+    <br />
+
+    <h2>Part 3: The morph sequence</h2>
+    <p>The algorithm mentioned in part 2 was used to create a morph sequence. The image was slowly morphed by adjusting
+        2 parameters which were coded into the morph function - wrap_frac and dissolve_frac. wrap_frac controls the
+        amount of morphing and dissolve_frac controls the weighted averaging of the colors between the 2 images. These
+        parameters go from 0 to 1. The resulting gif is shown below. The gif can be restarted by clicking on it.</p>
+
+    <div class="gif-container">
+        <img id="me_vicky" src="./results/me_vicky.gif" alt="Replayable GIF">
+    </div>
+
+    <script>
+        const gif = document.getElementById('me_vicky');
+
+        gif.addEventListener('click', function () {
+            const currentSrc = gif.src;
+            gif.src = '';
+            gif.src = currentSrc;
+        });
+    </script>
+
+    <P>Below is another morph of me and Ajay Devgn (a famous bollywood actor).</P>
+    <div class="gif-container">
+        <img id="me_ajay" src="./results/me_ajay.gif" alt="Replayable GIF">
+    </div>
+
+    <script>
+        const gif1 = document.getElementById('me_ajay');
+
+        gif1.addEventListener('click', function () {
+            const currentSrc = gif1.src;
+            gif1.src = '';
+            gif1.src = currentSrc;
+        });
+    </script>
+
+    <h2>Part 4: The "mean face" of a population</h2>
+    <p>First, a sub-dataset was curated by me from the Helen dataset. This would represent the population. I picked the
+        subset to be women images from the dataset. Next, using the keypoints provieded in the dataset, I created an
+        average face of the women population. The subset consisted of 103 images, conprising of mainly caucassian women.
+        Below is the mean face that I got.
+    </p>
+    <img src="./results/women_Helen_avg_resize.jpg" alt="Average women image" width="auto" height="400">
+
+    <P>My face was morphed into the average women's face shape. Below is the result.</P>
+    <img src="./results/me_morphshape2women.png" alt="Average women image" width="auto" height="400">
+
+    <P>The average women's face was morphed into my face shape. Below is the result.</P>
+    <img src="./results/women2meshape.png" alt="Average women image" width="auto" height="400">
+
+    <h2>Part 5: Caricatures </h2>
+    <p>Using the average face of the population that I constructed in the previous part, I created a caricature of my
+        face by extrapolating from the population mean. By increasing the extrapolation factor, the differences were
+        made more prominent. Below is the result. As seen, my face was made thinner, longer and lighter.</p>
+    <img src="./results/caricature.png" alt="Sharpen imgage" width="auto" height="400">
+
+    <h2>Bells and Whistles </h2>
+    <p>I change my expression to create a pouting face thereby creating an effect of lip-syncing. Below is an image
+        showing the results if only expression shape morphing was done, if only appearance morphing was done and finally
+        a blend of both.</p>
+    <img src="./results/morph_smile.png" alt="Sharpen imgage" width="auto" height="400">
+    <p>Below is a gif showing the seamless transition from a neutral smile to a pouting expression on my face. I also
+        tried to color match to my lip color as much as possible. Feel free to click on the gif to replay it.</p>
+    <img id="me_pouting" src="./results/me_pouting.gif" alt="Sharpen imgage" width="auto" height="400">
+
+    <script>
+        const gif2 = document.getElementById('me_pouting');
+
+        gif2.addEventListener('click', function () {
+            const currentSrc = gif2.src;
+            gif2.src = '';
+            gif2.src = currentSrc;
+        });
+    </script>
+    <p>I lightened my skin tone and smoothened my face. Below is the result.</p>
+    <img src="./results/me_morphed2women.png" alt="Sharpen imgage" width="auto" height="400">
+
+
+</body>
+
+</html>
