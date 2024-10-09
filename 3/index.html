@@ -110,6 +110,22 @@
     <p>I lightened my skin tone and smoothened my face. Below is the result.</p>
     <img src="./results/me_morphed2women.png" alt="Sharpen imgage" width="auto" height="400">
 
+    <p>I also created a cool triangular dissolve effect (similar to the ones offered by some image transition software)
+        by jumbling the triangles around before they would go back to their
+        intended place. Below is a gif of the effect I created.</p>
+
+    <img id="me_jumble" src="./results/morph_v1.gif" alt="Sharpen imgage" width="auto" height="400">
+
+    <script>
+        const gif3 = document.getElementById('me_jumble');
+
+        gif3.addEventListener('click', function () {
+            const currentSrc = gif3.src;
+            gif3.src = '';
+            gif3.src = currentSrc;
+        });
+    </script>
+
 
 </body>
 
