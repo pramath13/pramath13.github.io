@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Project 5</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            align-items: center;
+            float: left;
+        }
+
+        .image {
+            float: left;
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>The power of diffusion models</h1>
+    <h3>~ Pramath</h3> <br />
+    <h2>Part A</h2>
+    <h2> Part 1: Sampling loops</h2>
+    <p> For convinence, parts 1.1, 1.2 and 1.3 have been combined into 1 image.
+        </br>Below is the result.
+        </br>
+        <img src="./results/diff_noise.png" alt="Sharpen imgage" width="auto" height="400">
+    </p>
+
+    <h2>Part 1.4:</h2>
+    <p>Here you can see that the image gets gradually denoised as the time step increaseas.</p>
+    <img src="./results/1.4.png" alt="Sharpen imgage" width="auto" height="400">
+    <img src="./results/1.4.a.png" alt="Sharpen imgage" width="auto" height="400">
+
+    <h2> Part 1.5: Diffusion model sampling</h2>
+    <p> The difussion model is sampled with the prompt "a high quality photo". Below are the images sampled.
+        <img src="./results/1.5.1.png" alt="Sharpen imgage" width="auto" height="400">
+        <img src="./results/1.5.2.png" alt="Sharpen imgage" width="auto" height="400">
+        <img src="./results/1.5.3.png" alt="Sharpen imgage" width="auto" height="400">
+        <img src="./results/1.5.4.png" alt="Sharpen imgage" width="auto" height="400">
+    </p>
+
+    <h2> Part 1.6: Classifier-Free Guidance</h2>
+    <P>Sampled with classifier guidance. Below are the images sampled from the CFG of scale = 7.</P>
+    <img src="./results/1.6.1.png" alt="Sharpen imgage" width="auto" height="400">
+    <img src="./results/1.6.2.png" alt="Sharpen imgage" width="auto" height="400">
+    <img src="./results/1.6.3.png" alt="Sharpen imgage" width="auto" height="400">
+    <img src="./results/1.6.4.png" alt="Sharpen imgage" width="auto" height="400">
+    <img src="./results/1.6.5.png" alt="Sharpen imgage" width="auto" height="400">
+
+    <h2>Part 1.7: Image-image translation</h2>
+    <p>The start timestep was varied. Below are the results.</p>
+    <img src="./results/1.7.png" alt="Sharpen imgage" width="auto" height="400">
+
+    <h3>Part 1.7.1</h3>
+    <p>Here is a web based image.</p>
+    <img src="./results/1.7.1.png" alt="Sharpen imgage" width="auto" height="400">
+    <p>Here is a hand drawn image and below it is the generated image from it.</p>
+    <img src="./results/Hand_Drawn.png" alt="Sharpen imgage" width="auto" height="400">
+    <img src="./results/hand_processed.png" alt="Sharpen imgage" width="auto" height="400">
+    <p>Here is another hand drawn image and its respective processed image.</p>
+    <img src="./results/hand_2.png" alt="Sharpen imgage" width="auto" height="400">
+    <img src="./results/hand_2_proc.png" alt="Sharpen imgage" width="auto" height="400">
+
+    <h3>Part 1.7.2</h3>
+    <p>Here is an inpainting of the camponile.</p>
+    <img src="./results/inpainting_camp.png" alt="Sharpen imgage" width="auto" height="400">
+    <p>Here is an inpainting of my own image.The first image is the original image. The image after is the inpainted
+        image.</p>
+    <img src="./results/small_plane.jpg" alt="Sharpen imgage" width="auto" height="400">
+    <img src="./results/plane_inpaint.png" alt="Sharpen imgage" width="auto" height="400">
+
+    <p>Here is the second inpainting of my own image.The first image is the original image. The image after is the
+        inpainted image.</p>
+    <img src="./results/coffee.jpg" alt="Sharpen imgage" width="auto" height="400">
+    <img src="./results/coffee_inpain.png" alt="Sharpen imgage" width="auto" height="400">
+
+    <h3>Part 1.7.3</h3>
+    <p>Image to image translation using text condition. The first image is using the camponile and a propmpt of "a
+        rocket ship".</p>
+    <img src="./results/1.7.3.png" alt="Sharpen imgage" width="auto" height="400">
+
+    <h2>Part 1.8: Visual Anagram</h2>
+    <p>Here are some visual anagrams I generated.</p>
+    <img src="./results/va1a.png" alt="Sharpen imgage" width="auto" height="200">
+    <img src="./results/va1b.png" alt="Sharpen imgage" width="auto" height="200">
+
+    <p>Here is another one of a pencil and a rocket.</p>
+    <img src="./results/va2a.png" alt="Sharpen imgage" width="auto" height="200">
+    <img src="./results/va2b.png" alt="Sharpen imgage" width="auto" height="200">
+
+    <p>Here is another one of a monkey eating bananas and amfalfi coast.</p>
+    <img src="./results/va3a.png" alt="Sharpen imgage" width="auto" height="200">
+    <img src="./results/va3b.png" alt="Sharpen imgage" width="auto" height="200">
+
+
+    <h2>Part B</h2>
+
+    <h3>Part 1</h3>
+    <p> After the denoiser has been trained, here are the results. The first image is the denoiser after being trained
+        for 1 epoch and the next image is after being trained for 5 epochs.</p>
+    <img src="./results/1_2_denoise_model0.png" alt="Sharpen imgage" width="auto" height="400">
+    <img src="./results/1_2_denoise_model4.png" alt="Sharpen imgage" width="auto" height="400">
+
+    <p>The model was tested out of its distribution since it was trained at sigma = 0.5 noise level. Here are the
+        results.</p>
+    <img src="./results/OutOfDist-32.png" alt="Sharpen imgage" width="auto" height="400">
+    <img src="./results/OutOfDist-33.png" alt="Sharpen imgage" width="auto" height="400">
+    <img src="./results/OutOfDist-34.png" alt="Sharpen imgage" width="auto" height="400">
+    <img src="./results/OutOfDist-35.png" alt="Sharpen imgage" width="auto" height="400">
+    <img src="./results/OutOfDist-36.png" alt="Sharpen imgage" width="auto" height="400">
+    <img src="./results/OutOfDist-37.png" alt="Sharpen imgage" width="auto" height="400">
+    <img src="./results/OutOfDist-38.png" alt="Sharpen imgage" width="auto" height="400">
+
+    <h3>Part 2</h3>
+    <p>The time based Unet was implemented. Here are the results over the epochs 1, 5, 19.</p>
+    <p>Epoch 1</p>
+    <img src="./results/epoch-32.png" alt="Sharpen imgage" width="auto" height="400">
+    <p>Epoch 5</p>
+    <img src="./results/epoch-34.png" alt="Sharpen imgage" width="auto" height="400">
+    <p>Epoch 19</p>
+    <img src="./results/epoch-35.png" alt="Sharpen imgage" width="auto" height="400">
+
+
+</body>
+
+</html>
