@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Final project</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            align-items: center;
+            float: left;
+        }
+
+        .image {
+            float: left;
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Neural Radiance Field: NERF</h1>
+    <h3>~ Pramath</h3> <br />
+    <h2>Neural Radiance Field from Multi-view Images</h2>
+    <h2> Sampling</h2>
+    <p> For sampling, I used the approach of using a global sampling to get N rays from all the images.
+        I do this in my dataloader. My dataloader will take in either the train or validation images and respective C2W
+        and during initialization will calculate all the rays and uvs. </p>
+    </br>
+    </br>
+
+    Below is the visualization of sampling where the cameras, rays, samples can be visualized. The dots are the
+    samples along the ray.
+    <img src="./results/render-2.png" alt="Sharpen imgage" width="auto" height="800">
+    </br>
+    </br>
+
+    Below is the visualization of sampling different rays from 1 image.
+    <img src="./results/render-3.png" alt="Sharpen imgage" width="auto" height="800">
+    </br>
+    </br>
+
+    <h2>Model</h2>
+    <p>Below is an image of the architecture of the NERF model.</p>
+    <img src="./results/mlp_nerf.png" alt="Sharpen imgage" width="auto" height="180">
+    <p>This model was made deeper and has more inputs (ray direction).</p>
+    </br>
+    </br>
+
+    <h2>Results</h2>
+    <p>As the network was trained to fit the training images, below is the progression of how the model fit the images
+        across iterations.
+        I have run the model for 5000 iterations with a batch size of 1000 rays using Adam optimizer with a learning
+        rate of 5e-3.
+    </p>
+    <img src="./results/lego_image-45.png" alt="Sharpen imgage" width="auto" height="180">
+    <img src="./results/lego_image-46.png" alt="Sharpen imgage" width="auto" height="180">
+    <img src="./results/lego_image-37.png" alt="Sharpen imgage" width="auto" height="180">
+    <img src="./results/lego_image-38.png" alt="Sharpen imgage" width="auto" height="180">
+    <img src="./results/lego_image-44.png" alt="Sharpen imgage" width="auto" height="180">
+    <img src="./results/Unknown-47.png" alt="Sharpen imgage" width="auto" height="180">
+
+    <h3>Video</h3>
+    <p>Below is a gif of the novel views using just the test camera extrinsics.</p>
+
+    <img id="render" src="./results/render-4.gif" alt="Sharpen imgage" width="auto" height="400">
+
+    <script>
+        const gif3 = document.getElementById('render');
+
+        gif3.addEventListener('click', function () {
+            const currentSrc = gif3.src;
+            gif3.src = '';
+            gif3.src = currentSrc;
+        });
+
+    </script>
+
+
+</body>
+
+</html>
