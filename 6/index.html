@@ -65,20 +65,13 @@
 
 
     <h3>Video</h3>
-    <p>Below is a gif of the novel views using just the test camera extrinsics. Click on the video to play it again.</p>
+    <p>Below is a gif of the novel views using just the test camera extrinsics.</p>
 
-    <img id="render" src="./results/render-10.gif" alt="Sharpen imgage" width="300" height="300">
 
-    <script>
-        const gif3 = document.getElementById('render');
-
-        gif3.addEventListener('click', function () {
-            const currentSrc = gif3.src;
-            gif3.src = '';
-            gif3.src = currentSrc;
-        });
-
-    </script>
+    <video autoplay width="400" height="400" muted loop>
+        <source src="./results/render-2.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
 
 
 </body>
